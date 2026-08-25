@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Dinâmico - Google Sheets</title>
+  
+  <!-- Biblioteca para ler CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <!-- Biblioteca para Gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .chart-box {
+      position: relative;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Dashboard em Tempo Real</h1>
+    <div class="chart-box">
+      <canvas id="meuGrafico"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // Cole aqui o link CSV publicado do seu Google Sheets:
+    const URL_PLANILHA_CSV = "https://docs.google.com/spreadsheets/d/1t8LNfHSxzRrfvmZBlHDlRKwy1fn0SCURrwNooziHhIc/edit?usp=sharing";
+
+    function carregarDados() {
+      Papa.parse(URL_PLANILHA_CSV, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const dados = results.data;
+          
+          // Supondo que sua planilha tenha as colunas "Categoria" e "Valor"
+          const labels = dados.map(item => item.Categoria);
+          const valores = dados.map(item => parseFloat(item.Valor) || 0);
+
+          renderizarGrafico(labels, valores);
+        }
+      });
+    }
+
+    let graficoInstance = null;
+
+    function renderizarGrafico(labels, valores) {
+      const ctx = document.getElementById('meuGrafico').getContext('2d');
+      
+      if (graficoInstance) {
+        graficoInstance.destroy(); // Destrói o gráfico anterior antes de redesenhar
+      }
+
+      graficoInstance = new Chart(ctx, {
+        type: 'bar', // Tipos disponíveis: 'bar', 'line', 'pie', 'doughnut'
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Valores da Planilha',
+            data: valores,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    // Carrega os dados ao abrir a página
+    carregarDados();
+
+    // Atualiza automaticamente os dados a cada 30 segundos
+    setInterval(carregarDados, 30000);
+  </script>
+</body>
+</html>
