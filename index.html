@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Dinâmico - Google Sheets</title>
+  <title>Dashboard Automático - Google Sheets</title>
   
-  <!-- Papaparse para ler o CSV -->
+  <!-- Biblioteca para ler o CSV da Planilha -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <!-- Chart.js para gráficos -->
+  <!-- Biblioteca para Gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -24,8 +24,12 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 25px;
+      background: white;
+      padding: 15px 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    .header h1 { margin: 0; font-size: 1.8rem; color: #1a202c; }
+    .header h1 { margin: 0; font-size: 1.6rem; color: #1a202c; }
     .status {
       font-size: 0.85rem;
       background: #e2e8f0;
@@ -34,10 +38,10 @@
       color: #4a5568;
     }
 
-    /* Grid de Cards / KPIs */
+    /* Grid de Cards de Indicadores (KPIs) */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 15px;
       margin-bottom: 25px;
     }
@@ -48,10 +52,10 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       border-left: 5px solid #3182ce;
     }
-    .kpi-card span { font-size: 0.85rem; color: #718096; text-transform: uppercase; font-weight: bold; }
-    .kpi-card h2 { margin: 10px 0 0 0; font-size: 1.6rem; color: #2d3748; }
+    .kpi-card span { font-size: 0.8rem; color: #718096; text-transform: uppercase; font-weight: bold; }
+    .kpi-card h2 { margin: 10px 0 0 0; font-size: 1.5rem; color: #2d3748; }
 
-    /* Seções principais */
+    /* Estilo das Seções principais */
     .dashboard-section {
       background: white;
       padding: 20px;
@@ -61,8 +65,8 @@
     }
     .dashboard-section h3 { margin-top: 0; color: #2d3748; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
 
-    /* Tabela Responsiva */
-    .table-container { overflow-x: auto; }
+    /* Tabela de Dados */
+    .table-container { overflow-x: auto; max-height: 400px; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -73,33 +77,33 @@
       text-align: left;
       border-bottom: 1px solid #edf2f7;
     }
-    th { background-color: #f7fafc; color: #4a5568; font-weight: 600; }
+    th { background-color: #f7fafc; color: #4a5568; font-weight: 600; sticky: top; }
     tr:hover { background-color: #f8fafc; }
 
-    .chart-container { position: relative; height: 350px; }
+    .chart-container { position: relative; height: 380px; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h1>Dashboard Automático</h1>
-    <div class="status" id="lastUpdate">Atualizando dados...</div>
+    <h1>Dashboard da Planilha</h1>
+    <div class="status" id="lastUpdate">Carregando dados...</div>
   </div>
 
-  <!-- Cards de Métricas Dinâmicas -->
+  <!-- Cards com Totais e Médias automáticas -->
   <div class="kpi-grid" id="kpiContainer"></div>
 
-  <!-- Painel do Gráfico -->
+  <!-- Gráfico Automático -->
   <div class="dashboard-section">
-    <h3 id="chartTitle">Visão Geral dos Dados</h3>
+    <h3>Visão Geral (Gráfico Automático)</h3>
     <div class="chart-container">
       <canvas id="autoChart"></canvas>
     </div>
   </div>
 
-  <!-- Painel da Tabela Completa -->
+  <!-- Tabela com Todas as Células -->
   <div class="dashboard-section">
-    <h3>Dados da Planilha</h3>
+    <h3>Dados Atualizados da Planilha</h3>
     <div class="table-container">
       <table id="dataTable">
         <thead><tr id="tableHeader"></tr></thead>
@@ -109,8 +113,8 @@
   </div>
 
   <script>
-    // ⚠️ SUBSTITUA COM A SUA URL DO CSV PUBLICADO NO GOOGLE SHEETS
-    const URL_PLANILHA_CSV = "SUA_URL_DO_CSV_AQUI";
+    // Link convertido da sua planilha do Google Sheets para formato CSV
+    const URL_PLANILHA_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQ6Va9-UFwz5EQS9s0d_rhmIY83BARQluba4GyTiwWnV78FhrpaVEEPLO_8HkX0o19IGt7laSp-Bba/pub?gid=264969244&single=true&output=csv";
 
     let chartInstance = null;
 
@@ -130,71 +134,80 @@
           renderizarTabela(dados, colunas);
 
           const agora = new Date();
-          document.getElementById('lastUpdate').innerText = `Última atualização: ${agora.toLocaleTimeString('pt-BR')}`;
+          document.getElementById('lastUpdate').innerText = `Atualizado às: ${agora.toLocaleTimeString('pt-BR')}`;
         }
       });
     }
 
-    // 1. Gera KPIs dinâmicos para cada coluna numérica encontrada
+    // 1. Gera cartões indicadores (KPIs) para todas as colunas de números
     function renderizarKPIs(dados, colunas) {
       const kpiContainer = document.getElementById('kpiContainer');
       kpiContainer.innerHTML = '';
 
-      // KPI de Total de Registros
+      // Total de linhas encontradas
       kpiContainer.innerHTML += `
         <div class="kpi-card" style="border-color: #3182ce;">
-          <span>Total de Registros</span>
+          <span>Linhas Registradas</span>
           <h2>${dados.length}</h2>
         </div>
       `;
 
-      // Procura colunas numéricas para calcular soma
+      const cores = ['#38a169', '#805ad5', '#d69e2e', '#e53e3e', '#319795'];
+      let corIndex = 0;
+
       colunas.forEach(col => {
-        const valores = dados.map(item => parseFloat(item[col] ? item[col].replace(',', '.') : 0)).filter(v => !isNaN(v));
-        
-        // Se a coluna tiver valores numéricos válidos
-        if (valores.length > 0 && valores.some(v => v !== 0)) {
+        // Converte texto em número se necessário (aceitando vírgula ou ponto)
+        const valores = dados
+          .map(item => parseFloat(String(item[col]).replace('.', '').replace(',', '.')))
+          .filter(v => !isNaN(v));
+
+        // Se encontrou dados numéricos na coluna, cria um indicador
+        if (valores.length > 0) {
           const soma = valores.reduce((a, b) => a + b, 0);
           const media = soma / valores.length;
+          const cor = cores[corIndex % cores.length];
+          corIndex++;
 
           kpiContainer.innerHTML += `
-            <div class="kpi-card" style="border-color: #38a169;">
-              <span>Soma: ${col}</span>
+            <div class="kpi-card" style="border-color: ${cor};">
+              <span>Soma (${col})</span>
               <h2>${soma.toLocaleString('pt-BR', { maximumFractionDigits: 2 })}</h2>
-            </div>
-            <div class="kpi-card" style="border-color: #805ad5;">
-              <span>Média: ${col}</span>
-              <h2>${media.toLocaleString('pt-BR', { maximumFractionDigits: 2 })}</h2>
             </div>
           `;
         }
       });
     }
 
-    // 2. Monta um gráfico dinâmico comparando a primeira coluna de texto com as colunas numéricas
+    // 2. Cria o gráfico dinamicamente com base nas colunas
     function renderizarGrafico(dados, colunas) {
-      // Descobre qual coluna usar para o eixo X (rótulos) e quais usar para o eixo Y (valores)
-      let colunaLabel = colunas[0];
+      let colunaTexto = colunas[0];
       let colunasNumericas = [];
 
       colunas.forEach(col => {
-        const eNumero = dados.some(item => !isNaN(parseFloat(item[col])));
-        if (eNumero) {
+        const temNumero = dados.some(item => !isNaN(parseFloat(String(item[col]).replace(',', '.'))));
+        if (temNumero) {
           colunasNumericas.push(col);
-        } else if (colunaLabel === colunas[0]) {
-          colunaLabel = col; // Usa a primeira coluna com texto como rótulo
+        } else if (colunaTexto === colunas[0]) {
+          colunaTexto = col;
         }
       });
 
-      const labels = dados.map(item => item[colunaLabel] || '');
+      const labels = dados.map(item => item[colunaTexto] || '');
+
+      const cores = [
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(255, 206, 86, 0.7)',
+        'rgba(153, 102, 255, 0.7)'
+      ];
 
       const datasets = colunasNumericas.map((col, index) => {
-        const cores = ['rgba(54, 162, 235, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(255, 206, 86, 0.7)'];
         return {
           label: col,
-          data: dados.map(item => parseFloat(item[col] ? item[col].replace(',', '.') : 0) || 0),
+          data: dados.map(item => parseFloat(String(item[col]).replace('.', '').replace(',', '.')) || 0),
           backgroundColor: cores[index % cores.length],
-          borderRadius: 6
+          borderRadius: 4
         };
       });
 
@@ -213,20 +226,20 @@
       });
     }
 
-    // 3. Monta a tabela de dados dinamicamente com todas as células
+    // 3. Monta a tabela em tempo real lendo todas as colunas
     function renderizarTabela(dados, colunas) {
       const header = document.getElementById('tableHeader');
       const body = document.getElementById('tableBody');
 
       header.innerHTML = colunas.map(col => `<th>${col}</th>`).join('');
       body.innerHTML = dados.map(row => {
-        return `<tr>${colunas.map(col => `<td>${row[col] || '-'}</td>`).join('')}</tr>`;
+        return `<tr>${colunas.map(col => `<td>${row[col] !== undefined ? row[col] : ''}</td>`).join('')}</tr>`;
       }).join('');
     }
 
-    // Carrega dados imediatamente e depois a cada 30 segundos
+    // Executa no carregamento e busca dados novos a cada 15 segundos
     carregarDados();
-    setInterval(carregarDados, 30000);
+    setInterval(carregarDados, 15000);
   </script>
 </body>
 </html>
