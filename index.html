@@ -5,99 +5,227 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Dinâmico - Google Sheets</title>
   
-  <!-- Biblioteca para ler CSV -->
+  <!-- Papaparse para ler o CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <!-- Biblioteca para Gráficos -->
+  <!-- Chart.js para gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f0f2f5;
       margin: 0;
       padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    h1 {
-      text-align: center;
       color: #333;
     }
-    .chart-box {
-      position: relative;
-      margin-top: 30px;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
     }
+    .header h1 { margin: 0; font-size: 1.8rem; color: #1a202c; }
+    .status {
+      font-size: 0.85rem;
+      background: #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 20px;
+      color: #4a5568;
+    }
+
+    /* Grid de Cards / KPIs */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .kpi-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border-left: 5px solid #3182ce;
+    }
+    .kpi-card span { font-size: 0.85rem; color: #718096; text-transform: uppercase; font-weight: bold; }
+    .kpi-card h2 { margin: 10px 0 0 0; font-size: 1.6rem; color: #2d3748; }
+
+    /* Seções principais */
+    .dashboard-section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 25px;
+    }
+    .dashboard-section h3 { margin-top: 0; color: #2d3748; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+
+    /* Tabela Responsiva */
+    .table-container { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #edf2f7;
+    }
+    th { background-color: #f7fafc; color: #4a5568; font-weight: 600; }
+    tr:hover { background-color: #f8fafc; }
+
+    .chart-container { position: relative; height: 350px; }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Dashboard em Tempo Real</h1>
-    <div class="chart-box">
-      <canvas id="meuGrafico"></canvas>
+  <div class="header">
+    <h1>Dashboard Automático</h1>
+    <div class="status" id="lastUpdate">Atualizando dados...</div>
+  </div>
+
+  <!-- Cards de Métricas Dinâmicas -->
+  <div class="kpi-grid" id="kpiContainer"></div>
+
+  <!-- Painel do Gráfico -->
+  <div class="dashboard-section">
+    <h3 id="chartTitle">Visão Geral dos Dados</h3>
+    <div class="chart-container">
+      <canvas id="autoChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Painel da Tabela Completa -->
+  <div class="dashboard-section">
+    <h3>Dados da Planilha</h3>
+    <div class="table-container">
+      <table id="dataTable">
+        <thead><tr id="tableHeader"></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
     </div>
   </div>
 
   <script>
-    // Cole aqui o link CSV publicado do seu Google Sheets:
-    const URL_PLANILHA_CSV = "https://docs.google.com/spreadsheets/d/1t8LNfHSxzRrfvmZBlHDlRKwy1fn0SCURrwNooziHhIc/edit?usp=sharing";
+    // ⚠️ SUBSTITUA COM A SUA URL DO CSV PUBLICADO NO GOOGLE SHEETS
+    const URL_PLANILHA_CSV = "SUA_URL_DO_CSV_AQUI";
+
+    let chartInstance = null;
 
     function carregarDados() {
       Papa.parse(URL_PLANILHA_CSV, {
         download: true,
         header: true,
+        skipEmptyLines: true,
         complete: function(results) {
           const dados = results.data;
-          
-          // Supondo que sua planilha tenha as colunas "Categoria" e "Valor"
-          const labels = dados.map(item => item.Categoria);
-          const valores = dados.map(item => parseFloat(item.Valor) || 0);
+          if (!dados || dados.length === 0) return;
 
-          renderizarGrafico(labels, valores);
+          const colunas = Object.keys(dados[0]);
+
+          renderizarKPIs(dados, colunas);
+          renderizarGrafico(dados, colunas);
+          renderizarTabela(dados, colunas);
+
+          const agora = new Date();
+          document.getElementById('lastUpdate').innerText = `Última atualização: ${agora.toLocaleTimeString('pt-BR')}`;
         }
       });
     }
 
-    let graficoInstance = null;
+    // 1. Gera KPIs dinâmicos para cada coluna numérica encontrada
+    function renderizarKPIs(dados, colunas) {
+      const kpiContainer = document.getElementById('kpiContainer');
+      kpiContainer.innerHTML = '';
 
-    function renderizarGrafico(labels, valores) {
-      const ctx = document.getElementById('meuGrafico').getContext('2d');
-      
-      if (graficoInstance) {
-        graficoInstance.destroy(); // Destrói o gráfico anterior antes de redesenhar
-      }
+      // KPI de Total de Registros
+      kpiContainer.innerHTML += `
+        <div class="kpi-card" style="border-color: #3182ce;">
+          <span>Total de Registros</span>
+          <h2>${dados.length}</h2>
+        </div>
+      `;
 
-      graficoInstance = new Chart(ctx, {
-        type: 'bar', // Tipos disponíveis: 'bar', 'line', 'pie', 'doughnut'
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Valores da Planilha',
-            data: valores,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
+      // Procura colunas numéricas para calcular soma
+      colunas.forEach(col => {
+        const valores = dados.map(item => parseFloat(item[col] ? item[col].replace(',', '.') : 0)).filter(v => !isNaN(v));
+        
+        // Se a coluna tiver valores numéricos válidos
+        if (valores.length > 0 && valores.some(v => v !== 0)) {
+          const soma = valores.reduce((a, b) => a + b, 0);
+          const media = soma / valores.length;
+
+          kpiContainer.innerHTML += `
+            <div class="kpi-card" style="border-color: #38a169;">
+              <span>Soma: ${col}</span>
+              <h2>${soma.toLocaleString('pt-BR', { maximumFractionDigits: 2 })}</h2>
+            </div>
+            <div class="kpi-card" style="border-color: #805ad5;">
+              <span>Média: ${col}</span>
+              <h2>${media.toLocaleString('pt-BR', { maximumFractionDigits: 2 })}</h2>
+            </div>
+          `;
+        }
+      });
+    }
+
+    // 2. Monta um gráfico dinâmico comparando a primeira coluna de texto com as colunas numéricas
+    function renderizarGrafico(dados, colunas) {
+      // Descobre qual coluna usar para o eixo X (rótulos) e quais usar para o eixo Y (valores)
+      let colunaLabel = colunas[0];
+      let colunasNumericas = [];
+
+      colunas.forEach(col => {
+        const eNumero = dados.some(item => !isNaN(parseFloat(item[col])));
+        if (eNumero) {
+          colunasNumericas.push(col);
+        } else if (colunaLabel === colunas[0]) {
+          colunaLabel = col; // Usa a primeira coluna com texto como rótulo
+        }
+      });
+
+      const labels = dados.map(item => item[colunaLabel] || '');
+
+      const datasets = colunasNumericas.map((col, index) => {
+        const cores = ['rgba(54, 162, 235, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(255, 206, 86, 0.7)'];
+        return {
+          label: col,
+          data: dados.map(item => parseFloat(item[col] ? item[col].replace(',', '.') : 0) || 0),
+          backgroundColor: cores[index % cores.length],
+          borderRadius: 6
+        };
+      });
+
+      const ctx = document.getElementById('autoChart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: labels, datasets: datasets },
         options: {
           responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { beginAtZero: true } }
         }
       });
     }
 
-    // Carrega os dados ao abrir a página
-    carregarDados();
+    // 3. Monta a tabela de dados dinamicamente com todas as células
+    function renderizarTabela(dados, colunas) {
+      const header = document.getElementById('tableHeader');
+      const body = document.getElementById('tableBody');
 
-    // Atualiza automaticamente os dados a cada 30 segundos
+      header.innerHTML = colunas.map(col => `<th>${col}</th>`).join('');
+      body.innerHTML = dados.map(row => {
+        return `<tr>${colunas.map(col => `<td>${row[col] || '-'}</td>`).join('')}</tr>`;
+      }).join('');
+    }
+
+    // Carrega dados imediatamente e depois a cada 30 segundos
+    carregarDados();
     setInterval(carregarDados, 30000);
   </script>
 </body>
