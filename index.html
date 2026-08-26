@@ -51,7 +51,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  img { max-width: 100%; height: auto; display: block; }
+  img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
   a { color: inherit; text-decoration: none; }
   h1, h2, h3, h4 { font-family: var(--font-heading); margin: 0; line-height: 1.15; letter-spacing: -0.02em; }
   p { margin: 0; }
@@ -116,13 +116,6 @@
   }
   .btn-outline-light:hover { background: rgba(255, 255, 255, 0.12); }
 
-  .btn-outline-dark {
-    background: transparent;
-    border-color: var(--border-light);
-    color: var(--text-dark);
-  }
-  .btn-outline-dark:hover { background: var(--paper-2); }
-
   /* HEADER */
   header.nav {
     position: sticky; top: 0; z-index: 100;
@@ -134,8 +127,7 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px 0;
   }
-  .logo-img-dark { height: 32px; width: auto; }
-  .logo-img-light { height: 32px; width: auto; }
+  .logo-img-dark { height: 32px; width: auto; border-radius: 0; }
 
   nav.links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; color: var(--text-light-muted); }
   nav.links a:hover { color: var(--text-light); }
@@ -154,12 +146,6 @@
     content: ""; position: absolute;
     top: -20%; right: -10%; width: 600px; height: 600px;
     background: radial-gradient(circle, rgba(0, 86, 145, 0.35) 0%, transparent 70%);
-    filter: blur(80px);
-  }
-  .hero::after {
-    content: ""; position: absolute;
-    bottom: -10%; left: -5%; width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(56, 193, 114, 0.18) 0%, transparent 70%);
     filter: blur(80px);
   }
   .hero-grid {
@@ -212,94 +198,25 @@
   
   .dash-card p { font-size: 13.5px; color: #E2E8F0; line-height: 1.4; }
 
-  /* STRIP BANNER */
-  .strip { background: #0A0F1D; border-y: 1px solid var(--border-dark); padding: 24px 0; }
-  .strip-inner { display: flex; gap: 16px; overflow-x: auto; justify-content: center; flex-wrap: wrap; }
-  .pill-feature {
-    font-family: var(--font-mono); font-size: 12.5px; color: var(--text-light-muted);
-    background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-dark);
-    padding: 8px 18px; border-radius: var(--radius-full);
-  }
-
   /* SECTIONS GLOBAL */
   section { padding: 100px 0; }
   .section-head { max-width: 680px; margin-bottom: 60px; }
   .section-head h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 700; margin-top: 12px; }
   .section-head p { margin-top: 16px; color: var(--text-muted); font-size: 17px; line-height: 1.6; }
 
-  /* PROBLEM SECTION */
-  .problem { background: var(--paper); }
-  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .problem-card {
-    background: var(--bg-card-light);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: 32px 28px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-  }
-  .problem-card .num { font-family: var(--font-mono); color: var(--brand-green); font-weight: 600; }
-  .problem-card h3 { font-size: 20px; margin: 16px 0 10px; color: var(--text-dark); }
-  .problem-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
-  
-  /* CTA MID SECTION */
-  .cta-mid {
-    background: linear-gradient(135deg, var(--brand-blue) 0%, #002D4C 100%);
-    color: var(--text-light); text-align: center; border-radius: var(--radius-lg);
-    padding: 60px 40px; margin: 40px 0; position: relative; overflow: hidden;
-  }
-  .cta-mid h2 { font-size: 32px; font-weight: 700; }
-  .cta-mid p { margin: 16px auto 30px; max-width: 600px; color: var(--text-light-muted); font-size: 17px; }
-
-  /* ECOSYSTEM OVERVIEW */
-  .ecosystem { background: var(--bg-dark); color: var(--text-light); }
-  .ecosystem .section-head p { color: var(--text-light-muted); }
-  .eco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .eco-card {
-    background: var(--bg-card-dark);
-    border: 1px solid var(--border-dark);
-    border-radius: var(--radius-lg);
-    padding: 36px 28px;
-    display: flex; flex-direction: column; justify-content: space-between;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-  .eco-card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
-  .eco-card h3 { font-size: 22px; margin: 12px 0 8px; }
-  .eco-card ul { list-style: none; padding: 0; margin: 20px 0; display: flex; flex-direction: column; gap: 12px; }
-  .eco-card li { font-size: 14.5px; color: var(--text-light-muted); display: flex; gap: 10px; }
-  .eco-card li::before { content: "✓"; color: var(--brand-green); font-weight: bold; }
-  
-  /* PRODUCT DETAILS */
-  .product-deep { border-bottom: 1px solid var(--border-light); }
+  /* PRODUCT DETAILS WITH IMAGES */
+  .product-deep { padding: 80px 0; border-bottom: 1px solid var(--border-light); }
   .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
   .product-grid.reverse .p-copy { order: 2; }
   .product-grid.reverse .p-visual { order: 1; }
   
-  .visual-box {
-    background: #FFFFFF; border-radius: var(--radius-lg);
-    border: 1px solid var(--border-light); padding: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+  .visual-img-wrap {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    padding: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
   }
-
-  /* RESULTS / STATS */
-  .results { background: #0A0F1D; color: var(--text-light); }
-  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
-  .stat-card {
-    background: var(--bg-card-dark); border: 1px solid var(--border-dark);
-    border-radius: var(--radius-lg); padding: 32px 24px; text-align: center;
-  }
-  .stat-card .big { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--brand-green); }
-  .stat-card .lbl { margin-top: 8px; color: var(--text-light-muted); font-size: 15px; }
-
-  /* FAQ */
-  .faq-list { max-width: 800px; margin: 0 auto; }
-  details {
-    background: #FFFFFF; border: 1px solid var(--border-light);
-    border-radius: var(--radius-md); padding: 20px 24px; margin-bottom: 12px;
-  }
-  summary { font-weight: 600; font-size: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
-  summary::after { content: "+"; font-size: 20px; color: var(--brand-green); }
-  details[open] summary::after { content: "–"; }
-  details p { margin-top: 14px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
 
   /* CTA FINAL FORM */
   .cta-section { background: var(--bg-dark); color: var(--text-light); }
@@ -314,16 +231,13 @@
     width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-dark);
     border-radius: 8px; padding: 14px; color: #FFF; font-family: var(--font-body);
   }
-  .form-card input:focus { outline: 1px solid var(--brand-green); }
 
   /* FOOTER */
   footer { background: #04070D; color: var(--text-light-muted); padding: 60px 0 30px; border-top: 1px solid var(--border-dark); }
   .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  
+
   @media (max-width: 900px) {
-    .hero-grid, .product-grid, .cta-grid, .problem-grid, .eco-grid, .stat-grid, .foot-grid {
-      grid-template-columns: 1fr;
-    }
+    .hero-grid, .product-grid, .cta-grid, .foot-grid { grid-template-columns: 1fr; }
     .product-grid.reverse .p-copy { order: 1; }
     .product-grid.reverse .p-visual { order: 2; }
   }
@@ -335,18 +249,14 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a href="#top">
-      <!-- LOGO PARA FUNDO ESCURO -->
       <img src="Logo Fundo Escuro.png" alt="LifeApps" class="logo-img-dark">
     </a>
     <nav class="links">
-      <a href="#produtos">Produtos</a>
       <a href="#commerce">Life Commerce</a>
       <a href="#chat">Life Chat</a>
       <a href="#growth">Life Growth</a>
-      <a href="#faq">Perguntas</a>
     </nav>
     <div class="nav-cta">
-      <!-- CTA ESTRATÉGICO 1: HEADER -->
       <a class="btn btn-primary" href="#demo">Agendar demonstração</a>
     </div>
   </div>
@@ -360,14 +270,12 @@
       <h1>Seu atacado <span class="gradient-text">vendendo, atendendo</span> e crescendo — sem parar</h1>
       <p class="lead">Três motores, uma só operação: e-commerce B2B que vende sozinho, atendimento com IA no WhatsApp e inteligência de dados que resgata receita perdida.</p>
       
-      <!-- CTA ESTRATÉGICO 2: HERO -->
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#demo">Quero uma demonstração</a>
-        <a class="btn btn-outline-light" href="#produtos">Conhecer produtos</a>
+        <a class="btn btn-outline-light" href="#commerce">Ver Soluções</a>
       </div>
     </div>
 
-    <!-- MOCKUP VIVO -->
     <div class="hero-dashboard">
       <div class="dash-header">
         <span>Painel Unificado LifeApps</span>
@@ -375,221 +283,67 @@
       </div>
       <div class="dash-card">
         <span class="dash-card-tag tag-c">Commerce</span>
-        <p><b>Distribuidora Vale Sul</b> realizou pedido de <b>R$ 6.340</b> via portal B2B (Automático).</p>
+        <p><b>Distribuidora Vale Sul</b> realizou pedido de <b>R$ 6.340</b> via portal B2B.</p>
       </div>
       <div class="dash-card">
         <span class="dash-card-tag tag-ch">Chat</span>
-        <p><b>IA Agente Financeiro</b> enviou 2ª via de boleto no WhatsApp em 4 segundos.</p>
+        <p><b>IA Agente Financeiro</b> enviou 2ª via de boleto no WhatsApp em 4s.</p>
       </div>
       <div class="dash-card">
         <span class="dash-card-tag tag-g">Growth</span>
-        <p>Carrinho de <b>R$ 1.180</b> recuperado automaticamente via régua RFM.</p>
+        <p>Carrinho de <b>R$ 1.180</b> recuperado via automação RFM.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FEATURES STRIP -->
-<div class="strip">
-  <div class="wrap strip-inner">
-    <span class="pill-feature">Catálogo Digital Inteligente</span>
-    <span class="pill-feature">Portal do Cliente com Boleto & NF-e</span>
-    <span class="pill-feature">Multiagente IA no WhatsApp</span>
-    <span class="pill-feature">Segmentação RFM</span>
-    <span class="pill-feature">Recuperação Automática</span>
-  </div>
-</div>
-
-<!-- PROBLEMA -->
-<section class="problem">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="badge-tag" style="color:var(--brand-blue); border-color:rgba(0,86,145,0.2); background:rgba(0,86,145,0.05)">O Problema Silencioso</span>
-      <h2>Sua operação B2B roda em frentes soltas — e a receita escapa no meio.</h2>
-      <p>Quando o e-commerce, o WhatsApp e o CRM não conversam entre si, o cliente trava, o vendedor vira tirador de pedidos e o crescimento estagna.</p>
-    </div>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <span class="num">01 / VENDAS</span>
-        <h3>Pedido depende de digitação humana</h3>
-        <p>Catálogos desatualizados e preços incorretos fazem o cliente depender do vendedor para qualquer cotação simples.</p>
-      </div>
-      <div class="problem-card">
-        <span class="num">02 / ATENDIMENTO</span>
-        <h3>WhatsApp congestionado e lento</h3>
-        <p>Atendentes ocupados respondendo "onde está meu boleto?" enquanto solicitações de novos orçamentos esperam horas na fila.</p>
-      </div>
-      <div class="problem-card">
-        <span class="num">03 / CRESCIMENTO</span>
-        <h3>Vendas e clientes perdidos no escuro</h3>
-        <p>Carrinhos abandonados e clientes que pararam de comprar somem sem que a equipe receba alertas em tempo real.</p>
-      </div>
-    </div>
-
-    <!-- CTA ESTRATÉGICO 3: INTERMEDIÁRIO (MEIO DE PÁGINA) -->
-    <div class="cta-mid">
-      <h2>Pronto para unificar sua operação de vendas B2B?</h2>
-      <p>Descubra como a LifeApps automatiza processos e acelera seu faturamento.</p>
-      <a class="btn btn-primary" href="#demo">Agendar demonstração personalizada</a>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUCTS ECOSYSTEM -->
-<section class="ecosystem" id="produtos">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="badge-tag">Ecossistema LifeApps</span>
-      <h2>Três motores. Uma só plataforma.</h2>
-      <p>Escolha o motor que sua operação precisa hoje ou conecte os três para uma experiência omnichannel completa.</p>
-    </div>
-    <div class="eco-grid">
-      <div class="eco-card">
-        <div>
-          <span style="color:var(--commerce); font-family:var(--font-mono); font-size:12px; font-weight:bold;">01. COMMERCE</span>
-          <h3>Life Commerce</h3>
-          <p style="color:var(--text-light-muted); font-size:14px;">O portal e-commerce B2B que permite ao seu cliente comprar sozinho com preços dinâmicos.</p>
-          <ul>
-            <li>Catálogo segmentado</li>
-            <li>Segunda via de boletos & NFe</li>
-            <li>App nativo iOS & Android</li>
-          </ul>
-        </div>
-        <!-- CTA ESTRATÉGICO 4: DENTRO DO CARD -->
-        <a class="btn btn-outline-light" href="#demo" style="width:100%; margin-top:20px;">Conhecer Commerce</a>
-      </div>
-
-      <div class="eco-card">
-        <div>
-          <span style="color:var(--chat); font-family:var(--font-mono); font-size:12px; font-weight:bold;">02. CHAT</span>
-          <h3>Life Chat</h3>
-          <p style="color:var(--text-light-muted); font-size:14px;">Central multiagente de IA no WhatsApp integrada ao seu ERP para atendimento 24/7.</p>
-          <ul>
-            <li>Especialistas de IA por setor</li>
-            <li>WhatsApp Business Coexistence</li>
-            <li>Integração total com ERP</li>
-          </ul>
-        </div>
-        <!-- CTA ESTRATÉGICO 5: DENTRO DO CARD -->
-        <a class="btn btn-outline-light" href="#demo" style="width:100%; margin-top:20px;">Conhecer Chat</a>
-      </div>
-
-      <div class="eco-card">
-        <div>
-          <span style="color:var(--growth); font-family:var(--font-mono); font-size:12px; font-weight:bold;">03. GROWTH</span>
-          <h3>Life Growth</h3>
-          <p style="color:var(--text-light-muted); font-size:14px;">Inteligência comercial para reativar clientes, recuperar carrinhos e gerenciar metas.</p>
-          <ul>
-            <li>Matriz e Análise RFM</li>
-            <li>Automação de reconquista</li>
-            <li>Dashboard de KPIs ao vivo</li>
-          </ul>
-        </div>
-        <!-- CTA ESTRATÉGICO 6: DENTRO DO CARD -->
-        <a class="btn btn-outline-light" href="#demo" style="width:100%; margin-top:20px;">Conhecer Growth</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUCT DEEP DIVE: COMMERCE -->
+<!-- SEÇÃO PRODUCT: COMMERCE COM IMAGEM -->
 <section class="product-deep" id="commerce">
   <div class="wrap product-grid">
     <div class="p-copy">
       <span class="badge-tag" style="color:var(--commerce); background:rgba(37,99,235,0.1); border-color:rgba(37,99,235,0.2)">Life Commerce</span>
       <h2 style="margin-top:12px;">Seu catálogo e-commerce B2B vendendo 24 horas por dia</h2>
-      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Dê autonomia total aos seus clientes com tabelas de preço customizadas, condições de pagamento dinâmicas e emissão instantânea de documentos fiscais.</p>
-      <!-- CTA ESTRATÉGICO 7: PRODUTO COMMERCE -->
+      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Dê autonomia aos seus clientes com tabelas de preço customizadas, condições de pagamento dinâmicas e emissão instantânea de documentos fiscais em um portal moderno.</p>
       <a class="btn btn-primary" href="#demo">Ver Life Commerce em Ação</a>
     </div>
     <div class="p-visual">
-      <div class="visual-box">
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-bottom:12px;">MOCKUP / PORTAL B2B</div>
-        <div style="background:var(--paper-2); padding:16px; border-radius:8px; margin-bottom:8px;">
-          <b style="font-size:14px;">Pedido #8841 - Distribuidora Modelo</b>
-          <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">12 itens · R$ 4.250,00 · Faturado via ERP</div>
-        </div>
-        <div style="background:var(--paper-2); padding:16px; border-radius:8px;">
-          <b style="font-size:14px;">Segunda via de Boleto emitida</b>
-          <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Download de PDF e Código de Barras liberados</div>
-        </div>
+      <div class="visual-img-wrap">
+        <img src="watermarked_img_14604186850943160752.jpg" alt="Interface Life Commerce E-commerce B2B">
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRODUCT DEEP DIVE: CHAT -->
+<!-- SEÇÃO PRODUCT: CHAT COM IMAGEM -->
 <section class="product-deep" id="chat" style="background:var(--paper-2)">
   <div class="wrap product-grid reverse">
     <div class="p-copy">
       <span class="badge-tag" style="color:var(--chat); background:rgba(13,148,136,0.1); border-color:rgba(13,148,136,0.2)">Life Chat</span>
       <h2 style="margin-top:12px;">Atendimento inteligente com IA no WhatsApp oficial</h2>
-      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Reduza o tempo de espera no atendimento. Deixe dúvidas financeiras e operacionais com agentes de Inteligência Artificial contextualizados com os seus dados.</p>
-      <!-- CTA ESTRATÉGICO 8: PRODUTO CHAT -->
-      <a class="btn btn-primary" href="#demo">Testar Inteligência no Chat</a>
+      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Atendimento automatizado multiagente que resolve dúvidas operacionais, envio de notas fiscais e boletos direto no canal que seu comprador já utiliza.</p>
+      <a class="btn btn-primary" href="#demo">Testar IA no Chat</a>
     </div>
     <div class="p-visual">
-      <div class="visual-box">
-        <div style="background:#0F172A; color:#FFF; padding:16px; border-radius:12px; font-size:13px;">
-          <div style="background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; margin-bottom:10px;">
-            <b>Cliente:</b> Preciso da Nota Fiscal do último pedido.
-          </div>
-          <div style="background:var(--chat); padding:10px; border-radius:8px; margin-left:20px;">
-            <b>IA Life Chat:</b> Olá! Aqui está o arquivo XML e PDF da sua NF-e #44012 emitida hoje.
-          </div>
-        </div>
+      <div class="visual-img-wrap">
+        <img src="watermarked_img_3664892523157219926.jpg" alt="Atendimento IA no WhatsApp Life Chat">
       </div>
     </div>
   </div>
 </section>
 
-<!-- RESULTS -->
-<section class="results">
-  <div class="wrap">
-    <div class="section-head" style="text-align:center; margin: 0 auto 60px;">
-      <span class="badge-tag">Resultados Comprovados</span>
-      <h2>O impacto direto na sua operação atacado</h2>
+<!-- SEÇÃO PRODUCT: GROWTH COM IMAGEM -->
+<section class="product-deep" id="growth">
+  <div class="wrap product-grid">
+    <div class="p-copy">
+      <span class="badge-tag" style="color:var(--growth); background:rgba(230,81,0,0.1); border-color:rgba(230,81,0,0.2)">Life Growth</span>
+      <h2 style="margin-top:12px;">Inteligência de dados para resgatar vendas e reativar clientes</h2>
+      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Identifique clientes em risco de inatividade, automatize réguas de recuperação de carrinho e acompanhe os indicadores do seu atacado em tempo real.</p>
+      <a class="btn btn-primary" href="#demo">Conhecer o Life Growth</a>
     </div>
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="big">+35%</div>
-        <div class="lbl">De aumento nas vendas recorrentes sem aumentar a equipe de vendas.</div>
+    <div class="p-visual">
+      <div class="visual-img-wrap">
+        <img src="watermarked_img_16402364812840398987.jpg" alt="Painel de Analytics e Growth LifeApps">
       </div>
-      <div class="stat-card">
-        <div class="big">80%</div>
-        <div class="lbl">Das dúvidas operacionais resolvidas pela IA no WhatsApp.</div>
-      </div>
-      <div class="stat-card">
-        <div class="big">24/7</div>
-        <div class="lbl">Sua empresa aberta para receber pedidos e emitir boletos.</div>
-      </div>
-    </div>
-    <!-- CTA ESTRATÉGICO 9: SEÇÃO DE RESULTADOS -->
-    <div style="text-align:center;">
-      <a class="btn btn-primary" href="#demo">Quero esses resultados no meu atacado</a>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="wrap">
-    <div class="section-head" style="text-align:center; margin: 0 auto 40px;">
-      <h2>Perguntas Frequentes</h2>
-    </div>
-    <div class="faq-list">
-      <details>
-        <summary>Preciso contratar os três produtos juntos?</summary>
-        <p>Não. Você pode contratar cada módulo (Commerce, Chat ou Growth) individualmente e integrar os outros conforme sua operação evolui.</p>
-      </details>
-      <details>
-        <summary>A plataforma se integra com qual ERP?</summary>
-        <p>Conectamos nativamente com os maiores ERPs de atacado e distribuição do mercado para sincronização de preço, estoque e faturamento.</p>
-      </details>
-      <details>
-        <summary>Como funciona o atendimento com IA no WhatsApp?</summary>
-        <p>A IA é treinada com as regras de negócio da sua empresa, permitindo realizar consultas de estoque, envio de 2ª via de boleto e rastreamento de pedidos de forma autônoma.</p>
-      </details>
     </div>
   </div>
 </section>
@@ -598,8 +352,7 @@
 <section class="cta-section" id="demo">
   <div class="wrap cta-grid">
     <div>
-      <!-- UTILIZAÇÃO DA LOGO DE FUNDO ESCURO NO FOOTER/CTA -->
-      <img src="Logo Fundo Escuro.png" alt="LifeApps" style="height:40px; margin-bottom:24px;">
+      <img src="Logo Fundo Escuro.png" alt="LifeApps" style="height:40px; margin-bottom:24px; border-radius:0;">
       <span class="badge-tag">Demonstração Prática</span>
       <h2 style="margin-top:16px;">Pronto para transformar seu atacado?</h2>
       <p style="color:var(--text-light-muted); margin-top:16px; font-size:17px; line-height:1.6;">
@@ -607,7 +360,6 @@
       </p>
     </div>
 
-    <!-- FORMULÁRIO DE CONVERSÃO -->
     <div class="form-card">
       <form id="demoForm">
         <div class="fld">
@@ -622,16 +374,6 @@
           <label for="email">E-mail Corporativo</label>
           <input id="email" type="email" placeholder="voce@empresa.com.br" required>
         </div>
-        <div class="fld">
-          <label for="produto">Produto de Interesse</label>
-          <select id="produto">
-            <option>Life Commerce</option>
-            <option>Life Chat</option>
-            <option>Life Growth</option>
-            <option selected>Plataforma Completa (3 Produtos)</option>
-          </select>
-        </div>
-        <!-- CTA ESTRATÉGICO 10: FORMULÁRIO FINAL -->
         <button class="btn btn-primary" type="submit" style="width:100%;">Solicitar Demonstração Gratuita</button>
       </form>
     </div>
@@ -643,8 +385,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <!-- LOGO LIGHT/PADRÃO PARA SEÇÕES CLARAS OU LOGO ESCURO CASO FOOTER ESCURO -->
-        <img src="Logo Fundo Escuro.png" alt="LifeApps" style="height:32px; margin-bottom:16px;">
+        <img src="Logo Fundo Escuro.png" alt="LifeApps" style="height:32px; margin-bottom:16px; border-radius:0;">
         <p style="font-size:14px; line-height:1.6;">A plataforma omnichannel B2B que une Commerce, Chat com IA e Growth em um só ecossistema.</p>
       </div>
       <div>
@@ -655,8 +396,6 @@
       </div>
       <div>
         <h4 style="color:#FFF; font-size:14px; margin-bottom:16px;">Navegação</h4>
-        <p><a href="#produtos">Ecossistema</a></p>
-        <p><a href="#faq">Perguntas</a></p>
         <p><a href="#demo">Demonstração</a></p>
       </div>
       <div>
