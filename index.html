@@ -2,475 +2,607 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LifeApps | Uma plataforma. Três motores. Seu atacado nunca parado.</title>
-<meta name="description" content="Life Commerce, Life Chat e Life Growth: e-commerce B2B, atendimento com IA no WhatsApp e crescimento guiado por dados, integrados numa só operação.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LifeApps — Plataforma Omnichannel B2B</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-dark: #070B14;
-    --bg-card-dark: rgba(16, 25, 44, 0.7);
-    --bg-card-light: #FFFFFF;
-    --paper: #F8FAFC;
-    --paper-2: #F1F5F9;
-    
-    --text-dark: #0F172A;
-    --text-muted: #64748B;
-    --text-light: #F8FAFC;
-    --text-light-muted: #94A3B8;
+:root{
+  --bg:#050B12;
+  --bg-2:#0A121C;
+  --surf:#0F1926;
+  --surf-2:#14202F;
+  --line:#1C2B3C;
+  --line-2:#283A4E;
+  --txt:#E9F0F6;
+  --txt-2:#93A6B8;
+  --txt-3:#5E7386;
+  --blue:#0A6BAF;
+  --blue-2:#00548E;
+  --blue-3:#1587D4;
+  --green:#4CB848;
+  --green-2:#3F9E3C;
+  --green-3:#6FD16A;
+  --amber:#F5A524;
+  --max:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);color:var(--txt);line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:'Archivo',system-ui,sans-serif;line-height:1.08;letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 
-    --brand-blue: #005691;
-    --brand-green: #38C172;
-    --brand-green-glow: rgba(56, 193, 114, 0.25);
-    
-    --commerce: #2563EB;
-    --chat: #0D9488;
-    --growth: #E65100;
-    
-    --border-dark: rgba(255, 255, 255, 0.08);
-    --border-light: rgba(15, 23, 42, 0.08);
+.rv{opacity:0;transform:translateY(22px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.08s}.rv-d2{transition-delay:.16s}.rv-d3{transition-delay:.24s}
+.rv-d4{transition-delay:.32s}.rv-d5{transition-delay:.40s}.rv-d6{transition-delay:.48s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}*{animation:none!important}}
 
-    --radius-lg: 20px;
-    --radius-md: 12px;
-    --radius-full: 9999px;
-    
-    --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-  }
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.stuck{background:rgba(7,11,17,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:9px;font-family:'Archivo';font-weight:800;font-size:19px;letter-spacing:-.03em}
+.logo-mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--blue-2),var(--green));position:relative;flex-shrink:0}
+.logo-mark::after{content:'';position:absolute;inset:7px 7px auto auto;width:8px;height:8px;border-radius:50%;background:var(--bg);opacity:.85}
+.nav-links{display:flex;gap:30px;font-size:14.5px;font-weight:500;color:var(--txt-2)}
+.nav-links a{position:relative;padding:4px 0;transition:color .2s}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--green);transition:width .28s cubic-bezier(.16,1,.3,1)}
+.nav-links a:hover{color:var(--txt)}
+.nav-links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Archivo';font-weight:600;font-size:14.5px;padding:11px 20px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s,background .18s,border-color .18s}
+.btn-primary{background:var(--green);color:#062012}
+.btn-primary:hover{background:var(--green-3);transform:translateY(-1.5px);box-shadow:0 10px 26px rgba(76,184,72,.32)}
+.btn-ghost{background:rgba(255,255,255,.04);color:var(--txt);border-color:var(--line-2)}
+.btn-ghost:hover{background:rgba(255,255,255,.08);border-color:var(--txt-3)}
+.btn-lg{padding:15px 28px;font-size:15.5px;border-radius:10px}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--txt);margin:4px 0;border-radius:2px}
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    font-family: var(--font-body);
-    color: var(--text-dark);
-    background: var(--paper);
-    -webkit-font-smoothing: antialiased;
-  }
+/* hero */
+.hero{padding:152px 0 92px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-420px;left:50%;transform:translateX(-30%);width:1000px;height:900px;border-radius:50%;background:radial-gradient(ellipse,rgba(10,107,175,.20),rgba(76,184,72,.07) 42%,transparent 68%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:66px 66px;opacity:.28;mask-image:radial-gradient(ellipse 76% 58% at 50% 34%,#000,transparent)}
+.hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:56px;align-items:center;position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--green);background:rgba(76,184,72,.08);border:1px solid rgba(76,184,72,.2);padding:7px 14px;border-radius:99px;margin-bottom:24px}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(76,184,72,.6);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
+h1{font-size:clamp(38px,5.1vw,62px);font-weight:800;margin-bottom:22px}
+.hero p.lead{font-size:18.5px;color:var(--txt-2);max-width:33rem;margin-bottom:34px}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:36px}
+.hero-proof{display:flex;gap:26px;font-size:13.5px;color:var(--txt-3);flex-wrap:wrap}
+.hero-proof b{color:var(--txt);font-weight:600}
 
-  img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
-  a { color: inherit; text-decoration: none; }
-  h1, h2, h3, h4 { font-family: var(--font-heading); margin: 0; line-height: 1.15; letter-spacing: -0.02em; }
-  p { margin: 0; }
+.flow{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:28px 26px;position:relative;box-shadow:0 30px 70px -30px rgba(0,0,0,.8)}
+.flow::before{content:'';position:absolute;inset:-1px;border-radius:19px;padding:1px;background:linear-gradient(150deg,rgba(10,107,175,.5),transparent 42%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.flow-title{font-size:12.5px;font-weight:600;color:var(--txt-3);margin-bottom:22px;display:flex;justify-content:space-between;align-items:center}
+.flow-live{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-weight:600}
+.chan{display:flex;flex-direction:column;gap:11px;margin-bottom:20px}
+.chan-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--bg-2);transition:border-color .35s,background .35s,transform .35s}
+.chan-item.hot{border-color:rgba(10,107,175,.55);background:rgba(10,107,175,.09);transform:translateX(5px)}
+.chan-ico{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:15px;background:var(--surf-2);border:1px solid var(--line)}
+.chan-item.hot .chan-ico{border-color:rgba(10,107,175,.4)}
+.chan-name{font-size:13.5px;font-weight:600}
+.chan-sub{font-size:11.5px;color:var(--txt-3)}
+.chan-badge{margin-left:auto;font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--surf-2);color:var(--txt-3);transition:background .35s,color .35s}
+.chan-item.hot .chan-badge{background:var(--blue);color:#fff}
+.flow-arrow{display:grid;place-items:center;margin:4px 0 14px;color:var(--txt-3)}
+.flow-arrow svg{animation:drift 2.4s ease-in-out infinite}
+@keyframes drift{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(4px);opacity:1}}
+.erp{border:1px solid rgba(76,184,72,.3);border-radius:12px;padding:15px 16px;background:linear-gradient(120deg,rgba(76,184,72,.09),rgba(10,107,175,.05));display:flex;align-items:center;gap:12px}
+.erp-ico{width:34px;height:34px;border-radius:9px;background:rgba(76,184,72,.14);display:grid;place-items:center;font-size:16px}
+.erp-name{font-family:'Archivo';font-weight:700;font-size:14.5px}
+.erp-sub{font-size:11.5px;color:var(--txt-3)}
+.erp-count{margin-left:auto;text-align:right}
+.erp-count b{font-family:'Archivo';font-size:19px;display:block;line-height:1;color:var(--green)}
+.erp-count span{font-size:10.5px;color:var(--txt-3)}
 
-  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-  
-  .badge-tag {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
-    background: rgba(56, 193, 114, 0.1);
-    color: var(--brand-green);
-    border: 1px solid rgba(56, 193, 114, 0.2);
-    font-weight: 500;
-  }
-  .badge-tag::before {
-    content: "";
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--brand-green);
-  }
+/* strip */
+.strip{padding:44px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
+.strip-label{text-align:center;font-size:13px;color:var(--txt-3);margin-bottom:26px}
+.marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;gap:52px;width:max-content;animation:slide 36s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.mk{font-family:'Archivo';font-weight:700;font-size:17px;letter-spacing:-.02em;color:var(--txt-3);white-space:nowrap;transition:color .25s}
+.mk:hover{color:var(--txt)}
 
-  /* BOTÕES E CTAs */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 15px;
-    padding: 14px 28px;
-    border-radius: var(--radius-full);
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    white-space: nowrap;
-  }
-  .btn:hover { transform: translateY(-2px); }
-  
-  .btn-primary {
-    background: var(--brand-green);
-    color: #FFFFFF;
-    box-shadow: 0 10px 25px -5px var(--brand-green-glow);
-  }
-  .btn-primary:hover {
-    background: #2fb065;
-    box-shadow: 0 14px 30px -5px rgba(56, 193, 114, 0.4);
-  }
+section{padding:98px 0}
+.sec-head{max-width:41rem;margin-bottom:52px}
+.sec-tag{font-size:13.5px;font-weight:600;color:var(--green);margin-bottom:13px}
+.sec-head h2{font-size:clamp(29px,3.6vw,42px);font-weight:800;margin-bottom:15px}
+.sec-head p{font-size:17px;color:var(--txt-2)}
 
-  .btn-outline-light {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--border-dark);
-    color: var(--text-light);
-    backdrop-filter: blur(8px);
-  }
-  .btn-outline-light:hover { background: rgba(255, 255, 255, 0.12); }
+/* metrics */
+.metrics{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.metric{background:var(--bg-2);padding:32px 26px;transition:background .3s}
+.metric:hover{background:var(--surf)}
+.metric-n{font-family:'Archivo';font-weight:800;font-size:clamp(32px,3.8vw,46px);letter-spacing:-.035em;line-height:1;margin-bottom:9px}
+.metric-n .u{color:var(--green)}
+.metric-l{font-size:14px;color:var(--txt-2);font-weight:500}
+.metric-s{font-size:12.5px;color:var(--txt-3);margin-top:3px}
 
-  /* HEADER */
-  header.nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(7, 11, 20, 0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-dark);
-  }
-  .nav-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 0;
-  }
-  .logo-img-dark { height: 32px; width: auto; border-radius: 0; }
+/* products */
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.prod{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:30px 26px 26px;position:relative;overflow:hidden;display:flex;flex-direction:column;transition:transform .32s cubic-bezier(.16,1,.3,1),border-color .32s,background .32s}
+.prod::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--green));transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.prod:hover{transform:translateY(-5px);border-color:rgba(10,107,175,.4);background:var(--surf-2)}
+.prod:hover::before{transform:scaleX(1)}
+.prod-ico{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:18px;background:rgba(10,107,175,.11);border:1px solid rgba(10,107,175,.24)}
+.prod h3{font-size:20px;font-weight:700;margin-bottom:10px}
+.prod p{font-size:14.5px;color:var(--txt-2);margin-bottom:20px;flex:1}
+.prod-list{list-style:none;font-size:13.5px;color:var(--txt-2);margin-bottom:22px;display:flex;flex-direction:column;gap:8px}
+.prod-list li{display:flex;gap:9px;align-items:flex-start}
+.prod-list i{color:var(--green);font-style:normal;flex-shrink:0;font-weight:700}
+.prod-link{font-family:'Archivo';font-weight:600;font-size:14px;color:var(--green);display:inline-flex;align-items:center;gap:7px;transition:gap .2s}
+.prod:hover .prod-link{gap:12px}
 
-  nav.links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; color: var(--text-light-muted); }
-  nav.links a:hover { color: var(--text-light); }
-  
-  @media (max-width: 900px) { nav.links { display: none; } }
+/* results */
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.res{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:border-color .3s,transform .3s cubic-bezier(.16,1,.3,1)}
+.res:hover{border-color:rgba(76,184,72,.45);transform:translateY(-4px)}
+.res-n{font-family:'Archivo';font-weight:800;font-size:34px;letter-spacing:-.035em;line-height:1;color:var(--green);margin-bottom:9px}
+.res-n.down{color:var(--blue-3)}
+.res h4{font-size:15px;font-weight:600;margin-bottom:5px}
+.res p{font-size:13px;color:var(--txt-3)}
 
-  /* HERO */
-  .hero {
-    position: relative;
-    background: var(--bg-dark);
-    color: var(--text-light);
-    padding: 100px 0 80px;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: ""; position: absolute;
-    top: -20%; right: -10%; width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(0, 86, 145, 0.35) 0%, transparent 70%);
-    filter: blur(80px);
-  }
-  .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-    position: relative; z-index: 2;
-  }
-  .hero h1 { font-size: clamp(36px, 4.5vw, 56px); margin-top: 20px; font-weight: 700; }
-  .hero h1 .gradient-text {
-    background: linear-gradient(135deg, #FFFFFF 0%, #A5B4FC 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .hero p.lead {
-    margin-top: 20px; font-size: 18px; line-height: 1.6; color: var(--text-light-muted);
-  }
-  .hero-ctas { display: flex; gap: 16px; margin-top: 36px; flex-wrap: wrap; }
+/* journey */
+.journey{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.journey::before{content:'';position:absolute;bottom:-340px;left:-180px;width:740px;height:740px;border-radius:50%;background:radial-gradient(circle,rgba(76,184,72,.09),transparent 62%)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+.steps::before{content:'';position:absolute;top:23px;left:6%;right:6%;height:1px;background:linear-gradient(90deg,var(--green),rgba(76,184,72,.1))}
+.step{position:relative}
+.step-n{width:47px;height:47px;border-radius:12px;background:var(--bg);border:1px solid rgba(76,184,72,.4);display:grid;place-items:center;font-family:'Archivo';font-weight:700;font-size:16px;color:var(--green);margin-bottom:20px;position:relative;z-index:2;transition:background .3s,color .3s,transform .3s,box-shadow .3s}
+.step:hover .step-n{background:var(--green);color:var(--bg);transform:scale(1.06);box-shadow:0 0 0 7px rgba(76,184,72,.12)}
+.step h4{font-size:17.5px;font-weight:700;margin-bottom:9px}
+.step p{font-size:14px;color:var(--txt-2)}
+.journey-cta{margin-top:52px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn-green{background:var(--green);color:#062012}
+.btn-green:hover{background:#6FD16A;transform:translateY(-1.5px);box-shadow:0 10px 26px rgba(76,184,72,.3)}
 
-  /* HERO PANEL MOCK */
-  .hero-dashboard {
-    background: var(--bg-card-dark);
-    border: 1px solid var(--border-dark);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-  }
-  .dash-header {
-    display: flex; justify-content: space-between; align-items: center;
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-light-muted);
-    padding-bottom: 16px; border-bottom: 1px solid var(--border-dark); margin-bottom: 16px;
-  }
-  .live-status { color: var(--brand-green); display: flex; align-items: center; gap: 6px; }
-  .live-status::before {
-    content: ""; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--brand-green); box-shadow: 0 0 10px var(--brand-green);
-  }
-  .dash-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-dark);
-    border-radius: var(--radius-md);
-    padding: 16px; margin-bottom: 12px;
-    display: flex; gap: 14px; align-items: center;
-  }
-  .dash-card-tag {
-    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-    padding: 4px 8px; border-radius: 6px; text-transform: uppercase;
-  }
-  .tag-c { background: rgba(37, 99, 235, 0.2); color: #60A5FA; }
-  .tag-ch { background: rgba(13, 148, 136, 0.2); color: #2DD4BF; }
-  .tag-g { background: rgba(230, 81, 0, 0.2); color: #FB923C; }
-  
-  .dash-card p { font-size: 13.5px; color: #E2E8F0; line-height: 1.4; }
+/* pains */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pain{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:22px;transition:border-color .3s,transform .3s cubic-bezier(.16,1,.3,1),background .3s}
+.pain:hover{border-color:rgba(245,165,36,.42);transform:translateY(-3px);background:var(--surf-2)}
+.pain-top{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.pain-mark{width:26px;height:26px;border-radius:7px;flex-shrink:0;background:rgba(245,165,36,.13);border:1px solid rgba(245,165,36,.28);display:grid;place-items:center;font-size:13px;color:var(--amber)}
+.pain h4{font-size:15px;font-weight:700;line-height:1.3}
+.pain p{font-size:13.5px;color:var(--txt-2)}
 
-  /* SECTIONS GLOBAL */
-  section { padding: 100px 0; }
+/* cases */
+.cases{display:grid;grid-template-columns:1.35fr 1fr;gap:20px}
+.case-main{background:linear-gradient(150deg,rgba(10,107,175,.16),rgba(76,184,72,.05));border:1px solid rgba(10,107,175,.3);border-radius:18px;padding:40px 36px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.case-main::after{content:'';position:absolute;top:-100px;right:-100px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(76,184,72,.16),transparent 62%)}
+.case-tag{display:inline-block;font-size:12px;font-weight:600;color:var(--green);background:rgba(76,184,72,.1);border:1px solid rgba(76,184,72,.24);padding:4px 11px;border-radius:99px;margin-bottom:20px;position:relative;width:fit-content}
+.case-big{font-family:'Archivo';font-weight:800;font-size:clamp(46px,6.4vw,74px);line-height:1;letter-spacing:-.04em;margin-bottom:11px;position:relative;background:linear-gradient(120deg,#fff,var(--green));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.case-main p{font-size:16.5px;color:var(--txt-2);max-width:25rem;margin-bottom:26px;position:relative}
+.case-who{display:flex;align-items:center;gap:12px;padding-top:22px;border-top:1px solid var(--line-2);position:relative}
+.case-avatar{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid var(--line-2);display:grid;place-items:center;font-family:'Archivo';font-weight:700;font-size:13px}
+.case-who b{display:block;font-size:14.5px}
+.case-who span{font-size:12.5px;color:var(--txt-3)}
+.case-side{display:flex;flex-direction:column;gap:20px}
+.quote{background:var(--surf);border:1px solid var(--line);border-radius:15px;padding:26px;flex:1;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s,background .3s}
+.quote:hover{border-color:var(--line-2);background:var(--surf-2)}
+.quote-mark{font-family:'Archivo';font-size:38px;font-weight:800;color:var(--line-2);line-height:.7;margin-bottom:12px}
+.quote p{font-size:14.5px;color:var(--txt-2);margin-bottom:18px}
+.quote b{font-size:14px;display:block}
+.quote span{font-size:12.5px;color:var(--txt-3)}
 
-  /* PRODUCT DETAILS WITH SVG MOCKUPS */
-  .product-deep { padding: 80px 0; border-bottom: 1px solid var(--border-light); }
-  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .product-grid.reverse .p-copy { order: 2; }
-  .product-grid.reverse .p-visual { order: 1; }
-  
-  .visual-frame {
-    background: #0B1120;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-dark);
-    padding: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
+/* final */
+.final-box{background:linear-gradient(160deg,var(--surf),var(--bg-2));border:1px solid var(--line-2);border-radius:22px;padding:62px 48px;position:relative;overflow:hidden;text-align:center}
+.final-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(10,107,175,.2),transparent 56%)}
+.final-box > *{position:relative}
+.final-box h2{font-size:clamp(28px,3.9vw,44px);font-weight:800;margin-bottom:16px}
+.final-box p{font-size:17px;color:var(--txt-2);max-width:33rem;margin:0 auto 32px}
+.final-cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.final-notes{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:13.5px;color:var(--txt-3)}
+.final-notes span{display:flex;align-items:center;gap:7px}
 
-  /* CTA FINAL FORM */
-  .cta-section { background: var(--bg-dark); color: var(--text-light); }
-  .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .form-card {
-    background: var(--bg-card-dark); border: 1px solid var(--border-dark);
-    border-radius: var(--radius-lg); padding: 40px;
-  }
-  .form-card .fld { margin-bottom: 20px; }
-  .form-card label { display: block; font-family: var(--font-mono); font-size: 12px; color: var(--text-light-muted); margin-bottom: 8px; text-transform: uppercase; }
-  .form-card input, .form-card select {
-    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-dark);
-    border-radius: 8px; padding: 14px; color: #FFF; font-family: var(--font-body);
-  }
+footer{background:var(--bg-2);padding:58px 0 30px;border-top:1px solid var(--line)}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.foot-about p{font-size:14px;color:var(--txt-2);margin:16px 0;max-width:22rem}
+.foot-meta{font-size:13.5px;color:var(--txt-3);display:flex;flex-direction:column;gap:5px}
+.foot-col h5{font-family:'Archivo';font-size:14px;font-weight:700;margin-bottom:15px}
+.foot-col a{display:block;font-size:14px;color:var(--txt-2);padding:5px 0;transition:color .2s,transform .2s}
+.foot-col a:hover{color:var(--green);transform:translateX(3px)}
+.foot-bot{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--txt-3)}
 
-  /* FOOTER */
-  footer { background: #04070D; color: var(--text-light-muted); padding: 60px 0 30px; border-top: 1px solid var(--border-dark); }
-  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-
-  @media (max-width: 900px) {
-    .hero-grid, .product-grid, .cta-grid, .foot-grid { grid-template-columns: 1fr; }
-    .product-grid.reverse .p-copy { order: 1; }
-    .product-grid.reverse .p-visual { order: 2; }
-  }
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .metric-grid{grid-template-columns:repeat(2,1fr)}
+  .prods,.results{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr);gap:32px}
+  .steps::before{display:none}
+  .pains{grid-template-columns:repeat(2,1fr)}
+  .cases{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .nav-links{display:none}
+  .nav-toggle{display:block}
+  .nav .btn-primary{display:none}
+}
+@media(max-width:600px){
+  section{padding:66px 0}
+  .hero{padding:118px 0 62px}
+  .metric-grid,.pains,.steps{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .final-box{padding:44px 24px}
+}
+:focus-visible{outline:2.5px solid var(--green);outline-offset:3px;border-radius:4px}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="#top">
-      <img src="Logo Fundo Escuro.png" alt="LifeApps" class="logo-img-dark">
-    </a>
-    <nav class="links">
-      <a href="#commerce">Life Commerce</a>
-      <a href="#chat">Life Chat</a>
-      <a href="#growth">Life Growth</a>
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo"><span class="logo-mark"></span>LifeApps</a>
+    <nav class="nav-links">
+      <a href="#produtos">Produtos</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#jornada">Implantação</a>
+      <a href="#cases">Cases</a>
+      <a href="#">Blog</a>
     </nav>
-    <div class="nav-cta">
-      <a class="btn btn-primary" href="#demo">Agendar demonstração</a>
-    </div>
+    <a href="#contato" class="btn btn-primary">Solicitar demonstração</a>
+    <button class="nav-toggle" aria-label="Abrir menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="top">
+<div class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="badge-tag">Plataforma Omnichannel B2B</span>
-      <h1>Seu atacado <span class="gradient-text">vendendo, atendendo</span> e crescendo — sem parar</h1>
-      <p class="lead">Três motores, uma só operação: e-commerce B2B que vende sozinho, atendimento com IA no WhatsApp e inteligência de dados que resgata receita perdida.</p>
-      
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#demo">Quero uma demonstração</a>
-        <a class="btn btn-outline-light" href="#commerce">Ver Soluções</a>
-      </div>
-    </div>
-
-    <div class="hero-dashboard">
-      <div class="dash-header">
-        <span>Painel Unificado LifeApps</span>
-        <span class="live-status">Operação Ativa</span>
-      </div>
-      <div class="dash-card">
-        <span class="dash-card-tag tag-c">Commerce</span>
-        <p><b>Distribuidora Vale Sul</b> realizou pedido de <b>R$ 6.340</b> via portal B2B.</p>
-      </div>
-      <div class="dash-card">
-        <span class="dash-card-tag tag-ch">Chat</span>
-        <p><b>IA Agente Financeiro</b> enviou 2ª via de boleto no WhatsApp em 4s.</p>
-      </div>
-      <div class="dash-card">
-        <span class="dash-card-tag tag-g">Growth</span>
-        <p>Carrinho de <b>R$ 1.180</b> recuperado via automação RFM.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEÇÃO PRODUCT: COMMERCE (VISUAL VETORIAL) -->
-<section class="product-deep" id="commerce">
-  <div class="wrap product-grid">
-    <div class="p-copy">
-      <span class="badge-tag" style="color:var(--commerce); background:rgba(37,99,235,0.1); border-color:rgba(37,99,235,0.2)">Life Commerce</span>
-      <h2 style="margin-top:12px;">Seu catálogo e-commerce B2B vendendo 24 horas por dia</h2>
-      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Dê autonomia aos seus clientes com tabelas de preço customizadas, condições de pagamento dinâmicas e emissão instantânea de documentos fiscais em um portal moderno.</p>
-      <a class="btn btn-primary" href="#demo">Ver Life Commerce em Ação</a>
-    </div>
-    <div class="p-visual">
-      <div class="visual-frame">
-        <svg viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
-          <rect width="500" height="300" rx="12" fill="#0F172A"/>
-          <path d="M0 32H500" stroke="#1E293B"/>
-          <circle cx="20" cy="16" r="4" fill="#EF4444"/>
-          <circle cx="34" cy="16" r="4" fill="#F59E0B"/>
-          <circle cx="48" cy="16" r="4" fill="#10B981"/>
-          <!-- App Header -->
-          <rect x="20" y="50" width="140" height="12" rx="4" fill="#2563EB"/>
-          <rect x="20" y="70" width="220" height="8" rx="3" fill="#334155"/>
-          <!-- Product Cards -->
-          <rect x="20" y="100" width="140" height="160" rx="8" fill="#1E293B"/>
-          <rect x="32" y="112" width="116" height="70" rx="6" fill="#334155"/>
-          <rect x="32" y="192" width="80" height="10" rx="3" fill="#94A3B8"/>
-          <rect x="32" y="210" width="50" height="12" rx="3" fill="#10B981"/>
-
-          <rect x="180" y="100" width="140" height="160" rx="8" fill="#1E293B"/>
-          <rect x="192" y="112" width="116" height="70" rx="6" fill="#334155"/>
-          <rect x="192" y="192" width="80" height="10" rx="3" fill="#94A3B8"/>
-          <rect x="192" y="210" width="50" height="12" rx="3" fill="#10B981"/>
-
-          <rect x="340" y="100" width="140" height="160" rx="8" fill="#1E293B"/>
-          <rect x="352" y="112" width="116" height="70" rx="6" fill="#334155"/>
-          <rect x="352" y="192" width="80" height="10" rx="3" fill="#94A3B8"/>
-          <rect x="352" y="210" width="50" height="12" rx="3" fill="#10B981"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEÇÃO PRODUCT: CHAT (VISUAL VETORIAL) -->
-<section class="product-deep" id="chat" style="background:var(--paper-2)">
-  <div class="wrap product-grid reverse">
-    <div class="p-copy">
-      <span class="badge-tag" style="color:var(--chat); background:rgba(13,148,136,0.1); border-color:rgba(13,148,136,0.2)">Life Chat</span>
-      <h2 style="margin-top:12px;">Atendimento inteligente com IA no WhatsApp oficial</h2>
-      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Atendimento automatizado multiagente que resolve dúvidas operacionais, envio de notas fiscais e boletos direto no canal que seu comprador já utiliza.</p>
-      <a class="btn btn-primary" href="#demo">Testar IA no Chat</a>
-    </div>
-    <div class="p-visual">
-      <div class="visual-frame">
-        <svg viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
-          <rect width="500" height="300" rx="12" fill="#0B141A"/>
-          <!-- Chat Messages -->
-          <!-- Incoming -->
-          <rect x="30" y="30" width="280" height="50" rx="8" fill="#202C33"/>
-          <text x="45" y="52" fill="#E9EDEF" font-family="sans-serif" font-size="12">Preciso da 2ª via da Nota Fiscal e Boleto.</text>
-          <text x="45" y="68" fill="#8696A0" font-family="sans-serif" font-size="10">10:42</text>
-          <!-- Outgoing AI -->
-          <rect x="190" y="100" width="280" height="70" rx="8" fill="#005C4B"/>
-          <text x="205" y="122" fill="#E9EDEF" font-family="sans-serif" font-size="12">Com certeza! Aqui estão os documentos</text>
-          <text x="205" y="138" fill="#E9EDEF" font-family="sans-serif" font-size="12">fiscais referentes ao pedido #8821:</text>
-          <rect x="205" y="148" width="130" height="14" rx="4" fill="#008069"/>
-          <text x="210" y="159" fill="#FFF" font-family="sans-serif" font-size="9">📄 Download_NFE.pdf</text>
-          <!-- Incoming -->
-          <rect x="30" y="190" width="220" height="40" rx="8" fill="#202C33"/>
-          <text x="45" y="214" fill="#E9EDEF" font-family="sans-serif" font-size="12">Muito obrigado pelo envio rápido!</text>
-        </svg>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEÇÃO PRODUCT: GROWTH (VISUAL VETORIAL) -->
-<section class="product-deep" id="growth">
-  <div class="wrap product-grid">
-    <div class="p-copy">
-      <span class="badge-tag" style="color:var(--growth); background:rgba(230,81,0,0.1); border-color:rgba(230,81,0,0.2)">Life Growth</span>
-      <h2 style="margin-top:12px;">Inteligência de dados para resgatar vendas e reativar clientes</h2>
-      <p style="margin:16px 0; color:var(--text-muted); line-height:1.6;">Identifique clientes em risco de inatividade, automatize réguas de recuperação de carrinho e acompanhe os indicadores do seu atacado em tempo real.</p>
-      <a class="btn btn-primary" href="#demo">Conhecer o Life Growth</a>
-    </div>
-    <div class="p-visual">
-      <div class="visual-frame">
-        <svg viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
-          <rect width="500" height="300" rx="12" fill="#0F172A"/>
-          <!-- KPI Cards -->
-          <rect x="20" y="30" width="140" height="70" rx="8" fill="#1E293B"/>
-          <text x="35" y="55" fill="#38C172" font-family="sans-serif" font-weight="bold" font-size="20">+32%</text>
-          <text x="35" y="75" fill="#94A3B8" font-family="sans-serif" font-size="10">Recuperação de Carrinho</text>
-
-          <rect x="180" y="30" width="140" height="70" rx="8" fill="#1E293B"/>
-          <text x="195" y="55" fill="#38C172" font-family="sans-serif" font-weight="bold" font-size="20">R$ 118k</text>
-          <text x="195" y="75" fill="#94A3B8" font-family="sans-serif" font-size="10">Receita Resgatada</text>
-
-          <rect x="340" y="30" width="140" height="70" rx="8" fill="#1E293B"/>
-          <text x="355" y="55" fill="#38C172" font-family="sans-serif" font-weight="bold" font-size="20">4.2x</text>
-          <text x="355" y="75" fill="#94A3B8" font-family="sans-serif" font-size="10">ROI de Automação</text>
-
-          <!-- Graph Bars -->
-          <rect x="40" y="220" width="30" height="40" rx="4" fill="#334155"/>
-          <rect x="90" y="180" width="30" height="80" rx="4" fill="#334155"/>
-          <rect x="140" y="160" width="30" height="100" rx="4" fill="#E65100"/>
-          <rect x="190" y="140" width="30" height="120" rx="4" fill="#38C172"/>
-          <rect x="240" y="190" width="30" height="70" rx="4" fill="#334155"/>
-          <rect x="290" y="130" width="30" height="130" rx="4" fill="#38C172"/>
-          <rect x="340" y="110" width="30" height="150" rx="4" fill="#38C172"/>
-          <rect x="390" y="150" width="30" height="110" rx="4" fill="#E65100"/>
-          <rect x="440" y="100" width="30" height="160" rx="4" fill="#38C172"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL E FORMULÁRIO -->
-<section class="cta-section" id="demo">
-  <div class="wrap cta-grid">
-    <div>
-      <img src="Logo Fundo Escuro.png" alt="LifeApps" style="height:40px; margin-bottom:24px; border-radius:0;">
-      <span class="badge-tag">Demonstração Prática</span>
-      <h2 style="margin-top:16px;">Pronto para transformar seu atacado?</h2>
-      <p style="color:var(--text-light-muted); margin-top:16px; font-size:17px; line-height:1.6;">
-        Agende uma conversa com nossos especialistas e veja os três motores rodando em tempo real na sua operação.
+      <div class="eyebrow rv"><span class="dot-live"></span>Plataforma omnichannel B2B</div>
+      <h1 class="rv rv-d1">Todo pedido do seu cliente chega ao mesmo lugar.</h1>
+      <p class="lead rv rv-d2">
+        WhatsApp, e-commerce, televendas e vendedor em campo operando sobre a mesma base,
+        com preço, estoque e crédito vindos direto do seu ERP.
       </p>
+      <div class="hero-cta rv rv-d3">
+        <a href="#contato" class="btn btn-primary btn-lg">Solicitar demonstração</a>
+        <a href="#produtos" class="btn btn-ghost btn-lg">Ver a plataforma</a>
+      </div>
+      <div class="hero-proof rv rv-d4">
+        <span><b>9 anos</b> no B2B</span>
+        <span><b>200+</b> distribuidoras ativas</span>
+        <span><b>Goiânia</b>, atendendo o Brasil</span>
+      </div>
     </div>
 
-    <div class="form-card">
-      <form id="demoForm">
-        <div class="fld">
-          <label for="nome">Nome Completo</label>
-          <input id="nome" type="text" placeholder="Seu nome" required>
+    <div class="flow rv rv-d3">
+      <div class="flow-title">
+        <span>Canais de entrada</span>
+        <span class="flow-live"><span class="dot-live"></span>ao vivo</span>
+      </div>
+      <div class="chan" id="chan">
+        <div class="chan-item">
+          <div class="chan-ico">💬</div>
+          <div><div class="chan-name">WhatsApp</div><div class="chan-sub">LifeChat · atendimento com IA</div></div>
+          <div class="chan-badge">aguardando</div>
         </div>
-        <div class="fld">
-          <label for="empresa">Empresa / Distribuidora</label>
-          <input id="empresa" type="text" placeholder="Nome da sua empresa" required>
+        <div class="chan-item">
+          <div class="chan-ico">🛒</div>
+          <div><div class="chan-name">E-commerce B2B</div><div class="chan-sub">Life Commerce · pedido 24/7</div></div>
+          <div class="chan-badge">aguardando</div>
         </div>
-        <div class="fld">
-          <label for="email">E-mail Corporativo</label>
-          <input id="email" type="email" placeholder="voce@empresa.com.br" required>
+        <div class="chan-item">
+          <div class="chan-ico">📞</div>
+          <div><div class="chan-name">Televendas</div><div class="chan-sub">LifeGrowth · carteira e RFM</div></div>
+          <div class="chan-badge">aguardando</div>
         </div>
-        <button class="btn btn-primary" type="submit" style="width:100%;">Solicitar Demonstração Gratuita</button>
-      </form>
+      </div>
+      <div class="flow-arrow">
+        <svg width="18" height="26" viewBox="0 0 18 26" fill="none">
+          <path d="M9 1v20M2 15l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="erp">
+        <div class="erp-ico">⚙️</div>
+        <div>
+          <div class="erp-name">Seu ERP</div>
+          <div class="erp-sub">preço, estoque e crédito sincronizados</div>
+        </div>
+        <div class="erp-count"><b id="ordCount">0</b><span>pedidos hoje</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap"><p class="strip-label rv">Operações que rodam na LifeApps</p></div>
+  <div class="marquee rv rv-d1">
+    <div class="marquee-track">
+      <span class="mk">ICONIC Lubrificantes</span><span class="mk">Distribuidora Müller</span><span class="mk">Compre Fácil Atacadista</span>
+      <span class="mk">Contém Alimentos</span><span class="mk">Unimarka</span><span class="mk">Atitude Rio</span>
+      <span class="mk">ICONIC Lubrificantes</span><span class="mk">Distribuidora Müller</span><span class="mk">Compre Fácil Atacadista</span>
+      <span class="mk">Contém Alimentos</span><span class="mk">Unimarka</span><span class="mk">Atitude Rio</span>
+    </div>
+  </div>
+</div>
+
+<section class="metrics">
+  <div class="wrap">
+    <div class="metric-grid">
+      <div class="metric rv">
+        <div class="metric-n"><span class="cnt" data-to="200" data-suf="+">0</span></div>
+        <div class="metric-l">Clientes ativos</div><div class="metric-s">em todas as regiões do país</div>
+      </div>
+      <div class="metric rv rv-d1">
+        <div class="metric-n"><span class="u">+</span><span class="cnt" data-to="300" data-suf="%">0</span></div>
+        <div class="metric-l">Crescimento médio</div><div class="metric-s">nas vendas online dos clientes</div>
+      </div>
+      <div class="metric rv rv-d2">
+        <div class="metric-n"><span class="cnt" data-to="98" data-suf="%">0</span></div>
+        <div class="metric-l">Satisfação</div><div class="metric-s">medida com a base ativa</div>
+      </div>
+      <div class="metric rv rv-d3">
+        <div class="metric-n"><span class="cnt" data-to="9" data-suf=" anos">0</span></div>
+        <div class="metric-l">De experiência B2B</div><div class="metric-s">atacado e distribuição</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<section id="produtos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="sec-tag">Três produtos, uma operação</p>
+      <h2>Cada canal tem sua ferramenta. Todas falam a mesma língua.</h2>
+      <p>Você adota o que faz sentido agora e conecta o resto quando a operação pedir.</p>
+    </div>
+    <div class="prods">
+      <article class="prod rv">
+        <div class="prod-ico">🛒</div>
+        <h3>Life Commerce</h3>
+        <p>E-commerce B2B com as regras comerciais que cada cliente já tem: tabela, prazo, crédito e mix.</p>
+        <ul class="prod-list">
+          <li><i>+</i> Tabela de preço por cliente</li>
+          <li><i>+</i> Boleto e NF-e em autoatendimento</li>
+          <li><i>+</i> Combos, cupons e clube de pontos</li>
+        </ul>
+        <span class="prod-link">Conhecer o Life Commerce →</span>
+      </article>
+      <article class="prod rv rv-d1">
+        <div class="prod-ico">📈</div>
+        <h3>LifeGrowth</h3>
+        <p>Televendas orientado por dados: quem parou de comprar, qual mix oferecer e qual a próxima ação.</p>
+        <ul class="prod-list">
+          <li><i>+</i> Matriz RFM da carteira</li>
+          <li><i>+</i> Sugestão de mix por IA</li>
+          <li><i>+</i> Kanban de atividades e metas</li>
+        </ul>
+        <span class="prod-link">Conhecer o LifeGrowth →</span>
+      </article>
+      <article class="prod rv rv-d2">
+        <div class="prod-ico">💬</div>
+        <h3>LifeChat</h3>
+        <p>Todo o WhatsApp da empresa em um lugar só, com IA que resume conversa e responde na hora.</p>
+        <ul class="prod-list">
+          <li><i>+</i> Múltiplos números, sem taxa por mensagem</li>
+          <li><i>+</i> Roteamento por departamento</li>
+          <li><i>+</i> Resumo de conversa por IA</li>
+        </ul>
+        <span class="prod-link">Conhecer o LifeChat →</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="resultados" class="journey">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="sec-tag">Medido na base de clientes</p>
+      <h2>O que muda nos primeiros meses</h2>
+      <p>Números apurados em operações reais depois da implantação.</p>
+    </div>
+    <div class="results">
+      <div class="res rv">
+        <div class="res-n"><span class="cnt" data-to="42" data-pre="+" data-suf="%">0</span></div>
+        <h4>Reativação de inativos</h4><p>Em 6 meses, com segmentação por RFM</p>
+      </div>
+      <div class="res rv rv-d1">
+        <div class="res-n down"><span class="cnt" data-to="58" data-pre="−" data-suf="%">0</span></div>
+        <h4>Tempo de espera no WhatsApp</h4><p>Redução no tempo médio de atendimento</p>
+      </div>
+      <div class="res rv rv-d2">
+        <div class="res-n"><span class="cnt" data-to="52" data-pre="+" data-suf="%">0</span></div>
+        <h4>Positivação da carteira</h4><p>Conversão diária do time comercial</p>
+      </div>
+      <div class="res rv rv-d3">
+        <div class="res-n"><span class="cnt" data-to="45" data-pre="+" data-suf="%">0</span></div>
+        <h4>Positivação digital</h4><p>Percentual da base comprando online</p>
+      </div>
+      <div class="res rv rv-d4">
+        <div class="res-n"><span class="cnt" data-to="22" data-pre="+" data-suf="%">0</span></div>
+        <h4>Vendas fora do horário</h4><p>Volume que entra sem ninguém atender</p>
+      </div>
+      <div class="res rv rv-d5">
+        <div class="res-n down"><span class="cnt" data-to="35" data-pre="−" data-suf="%">0</span></div>
+        <h4>Churn por inatividade</h4><p>Clientes que deixariam de comprar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="jornada">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="sec-tag">Como a implantação acontece</p>
+      <h2>Do diagnóstico à liderança no seu segmento</h2>
+      <p>Quatro etapas, com escopo definido antes de começar.</p>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="step-n">01</div><h4>Diagnóstico</h4><p>Mapeamos canais, carteira e as regras que o ERP já aplica hoje.</p></div>
+      <div class="step rv rv-d1"><div class="step-n">02</div><h4>Implantação</h4><p>Configuração da plataforma e integração com os sistemas existentes.</p></div>
+      <div class="step rv rv-d2"><div class="step-n">03</div><h4>Aceleração</h4><p>Automação dos processos que consomem tempo do time comercial.</p></div>
+      <div class="step rv rv-d3"><div class="step-n">04</div><h4>Liderança</h4><p>Sua operação vira a referência digital do segmento.</p></div>
+    </div>
+    <div class="journey-cta rv rv-d4">
+      <a href="#contato" class="btn btn-green btn-lg">Agendar diagnóstico gratuito</a>
+      <span style="font-size:13.5px;color:var(--txt-3)">Sem compromisso · Retorno em até 1 dia útil</span>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="desafios">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="sec-tag">O que costuma travar a operação</p>
+      <h2>Se você reconhece dois destes, a plataforma se paga</h2>
+      <p>São os gargalos que aparecem em quase toda distribuidora antes da digitalização.</p>
+    </div>
+    <div class="pains">
+      <div class="pain rv"><div class="pain-top"><span class="pain-mark">↓</span><h4>Positivação abaixo do esperado</h4></div><p>Clientes na base que não compram há meses e ninguém percebeu.</p></div>
+      <div class="pain rv rv-d1"><div class="pain-top"><span class="pain-mark">◷</span><h4>Demanda represada à noite</h4></div><p>O cliente quer repor no domingo e não tem por onde.</p></div>
+      <div class="pain rv rv-d2"><div class="pain-top"><span class="pain-mark">▤</span><h4>Mix muito abaixo do catálogo</h4></div><p>Milhares de SKUs cadastrados e a venda concentrada em poucos.</p></div>
+      <div class="pain rv rv-d3"><div class="pain-top"><span class="pain-mark">⇄</span><h4>WhatsApp no celular de cada um</h4></div><p>Se o vendedor sai, o histórico da carteira sai junto.</p></div>
+      <div class="pain rv rv-d4"><div class="pain-top"><span class="pain-mark">◎</span><h4>Suporte travado com 2ª via</h4></div><p>Time comercial parado emitindo boleto e nota que o cliente podia baixar.</p></div>
+      <div class="pain rv rv-d5"><div class="pain-top"><span class="pain-mark">✕</span><h4>Digitação manual de pedido</h4></div><p>Pedido que chega por um canal e é redigitado no ERP à mão.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cases">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="sec-tag">Resultado em operação real</p>
+      <h2>O que mudou na prática</h2>
+    </div>
+    <div class="cases">
+      <div class="case-main rv">
+        <div>
+          <span class="case-tag">Ipiranga &amp; Chevron</span>
+          <div class="case-big">48%</div>
+          <p>de aumento na taxa de reativação de clientes em risco, com LifeGrowth e LifeChat operando juntos. O tempo de resposta no WhatsApp caiu de horas para minutos.</p>
+        </div>
+        <div class="case-who">
+          <div class="case-avatar">IC</div>
+          <div><b>ICONIC Lubrificantes</b><span>Gestão de Operações Comerciais</span></div>
+        </div>
+      </div>
+      <div class="case-side">
+        <div class="quote rv rv-d1">
+          <div>
+            <div class="quote-mark">"</div>
+            <p>A plataforma tem sido estável e eficiente, contribuindo para melhorar a performance comercial e aumentar o faturamento. O atendimento para resolver problemas é rápido e eficaz.</p>
+          </div>
+          <div><b>Michelle</b><span>Distribuidora Müller</span></div>
+        </div>
+        <div class="quote rv rv-d2">
+          <div>
+            <div class="quote-mark">"</div>
+            <p>Crescimento de 144% nas vendas online desde o início da operação digital. Hoje o e-commerce representa 40% do faturamento da empresa.</p>
+          </div>
+          <div><b>Kauê e Allan</b><span>Compre Fácil Atacadista · SP</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="wrap">
+    <div class="final-box rv">
+      <h2>Vamos olhar a sua operação primeiro</h2>
+      <p>Uma conversa de 30 minutos para entender seus canais, sua carteira e onde a plataforma teria mais impacto.</p>
+      <div class="final-cta">
+        <a href="#" class="btn btn-primary btn-lg">Solicitar demonstração</a>
+        <a href="#" class="btn btn-ghost btn-lg">Falar no WhatsApp</a>
+      </div>
+      <div class="final-notes">
+        <span>◷ Retorno em até 1 dia útil</span>
+        <span>◆ Diagnóstico gratuito</span>
+        <span>✓ Sem compromisso</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div>
-        <img src="Logo Fundo Escuro.png" alt="LifeApps" style="height:32px; margin-bottom:16px; border-radius:0;">
-        <p style="font-size:14px; line-height:1.6;">A plataforma omnichannel B2B que une Commerce, Chat com IA e Growth em um só ecossistema.</p>
+      <div class="foot-about">
+        <a href="#" class="logo"><span class="logo-mark"></span>LifeApps</a>
+        <p>Plataforma omnichannel B2B para atacadistas e distribuidores. Vendas, atendimento e gestão em um só lugar.</p>
+        <div class="foot-meta">
+          <span>contato@lifeapps.com.br</span>
+          <span>(62) 3300-0330</span>
+          <span>Goiânia — GO</span>
+        </div>
       </div>
-      <div>
-        <h4 style="color:#FFF; font-size:14px; margin-bottom:16px;">Produtos</h4>
-        <p><a href="#commerce">Life Commerce</a></p>
-        <p><a href="#chat">Life Chat</a></p>
-        <p><a href="#growth">Life Growth</a></p>
+      <div class="foot-col">
+        <h5>Empresa</h5>
+        <a href="#">Sobre a LifeApps</a><a href="#produtos">Produtos</a><a href="#cases">Cases</a><a href="#">Blog</a>
       </div>
-      <div>
-        <h4 style="color:#FFF; font-size:14px; margin-bottom:16px;">Navegação</h4>
-        <p><a href="#demo">Demonstração</a></p>
+      <div class="foot-col">
+        <h5>Produtos</h5>
+        <a href="#">Life Commerce</a><a href="#">LifeGrowth</a><a href="#">LifeChat</a>
       </div>
-      <div>
-        <h4 style="color:#FFF; font-size:14px; margin-bottom:16px;">Contato</h4>
-        <p style="font-size:14px;">contato@lifeapps.com.br</p>
-        <p style="font-size:14px;">(62) 3300-0330</p>
+      <div class="foot-col">
+        <h5>Suporte</h5>
+        <a href="#">Central de ajuda</a><a href="#">Documentação da API</a><a href="#">FAQ</a>
       </div>
     </div>
-    <div style="border-top: 1px solid var(--border-dark); padding-top: 24px; font-size: 13px; text-align: center;">
-      © 2026 LifeApps. Todos os direitos reservados.
+    <div class="foot-bot">
+      <span>© 2026 LifeApps. CNPJ 24.790.753/0001-06</span>
+      <span>Política de privacidade · Cookies</span>
     </div>
   </div>
 </footer>
+
+<script>
+const hdr = document.getElementById('hdr');
+addEventListener('scroll', () => hdr.classList.toggle('stuck', scrollY > 12), {passive:true});
+
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+const fmt = n => n.toLocaleString('pt-BR');
+const cio = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, to = +el.dataset.to,
+          pre = el.dataset.pre || '', suf = el.dataset.suf || '',
+          dur = 1500, t0 = performance.now();
+    const tick = t => {
+      const p = Math.min((t - t0) / dur, 1);
+      el.textContent = pre + fmt(Math.round(to * (1 - Math.pow(1 - p, 3)))) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    cio.unobserve(el);
+  });
+}, {threshold:.5});
+document.querySelectorAll('.cnt').forEach(el => cio.observe(el));
+
+(() => {
+  const items = [...document.querySelectorAll('#chan .chan-item')];
+  const counter = document.getElementById('ordCount');
+  if (!items.length) return;
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) { counter.textContent = '1.284'; return; }
+  let i = 0, n = 1240;
+  counter.textContent = fmt(n);
+  setInterval(() => {
+    items.forEach(x => x.classList.remove('hot'));
+    const cur = items[i % items.length];
+    cur.classList.add('hot');
+    cur.querySelector('.chan-badge').textContent = 'recebido';
+    setTimeout(() => {
+      n += Math.floor(Math.random() * 3) + 1;
+      counter.textContent = fmt(n);
+      setTimeout(() => { cur.querySelector('.chan-badge').textContent = 'aguardando'; }, 900);
+    }, 620);
+    i++;
+  }, 2100);
+})();
+</script>
 
 </body>
 </html>
